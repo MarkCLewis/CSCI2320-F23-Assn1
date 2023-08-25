@@ -11,4 +11,22 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
     }
+
+    static void ioTestArrayStack() {
+    }
+
+    static void ioTestArrayQueue() {
+    }
+
+    static void ioTestGraphBFSShort() {
+
+    }
+
+    static void ioTestGraphDFSShort() {
+        
+    }
+
+    static void ioTestGraphDFSLong() {
+        
+    }
 }
