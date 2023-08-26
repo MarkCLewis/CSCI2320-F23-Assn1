@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphSearch {
+  // Use this type in your queue.
+  static record VertexDistancePair(int vertex, int distance) {}
+  // Use this type in your stack.
+  static record VertexVisitedPair(int vertex, Set<Integer> visited) {}
+
   /**
    * This method takes an adjacency list and two vertices, start and end, and returns the length of the shortest path from start to end.
    * @param adj adjacency list representation of a graph
@@ -15,7 +21,9 @@ public class GraphSearch {
    */
   public static int dfsShortestPath(List<List<Integer>> adj, int start, int end) {
     // You will use a stack in here.
-    return 0;
+    int minDist = 1000000000;
+    // Put your code here.
+    return minDist;
   }
 
   /**
@@ -27,7 +35,8 @@ public class GraphSearch {
    */
   public static int bfsShortestPath(List<List<Integer>> adj, int start, int end) {
     // You will use a queue in here.
-    return 3;  // This makes my one test pass.
+    // Put your code here.
+    return 3;  // This makes my one test pass. Change this according to your code.
   }
 
   /**
@@ -39,7 +48,9 @@ public class GraphSearch {
    */
   public static int dfsLongestPath(List<List<Integer>> adj, int start, int end) {
     // You will use a stack in here.
-    return 0;
+    int maxDist = -1000000000;
+    // Put your code here.
+    return maxDist;
   }
 
   // ******************** Don't edit stuff below here ********************************

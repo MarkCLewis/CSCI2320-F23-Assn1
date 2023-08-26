@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ArrayQueueTest {
   @Test void emptyOnCreate() {
-    // ArrayQueue<Integer> queue = new ArrayQueue<Integer>();
-    // assertTrue(queue.isEmpty(), "Queue should be empty on creation");
+    ArrayQueue<Integer> queue = new ArrayQueue<Integer>();
+    assertTrue(queue.isEmpty(), "Queue should be empty on creation");
   }
 }
