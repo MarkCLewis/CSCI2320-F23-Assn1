@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ArrayStackTest {
   @Test void emptyOnCreate() {
-    // ArrayStack<Integer> stack = new ArrayStack<Integer>();
-    // assertTrue(stack.isEmpty(), "Stack should be empty on creation");
+    ArrayStack<Integer> stack = new ArrayStack<Integer>();
+    assertTrue(stack.isEmpty(), "Stack should be empty on creation");
   }
 }

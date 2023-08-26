@@ -3,30 +3,153 @@
  */
 package csci2320;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * Main application. I'm putting my code for the automated testing in here. Do not modify this
+ * code. If you change this, you will fail the auto-grading.
+ */
 public class App {
+    public static interface DistFunction {
+        int distance(List<List<Integer>> graph, int start, int end);
+    }
+
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Scanner input = new Scanner(System.in);
+        String testType = input.nextLine();
+        switch (testType) {
+            case "stack":
+                ioTestArrayStack(input);
+                break;
+            case "queue":
+                ioTestArrayQueue(input);
+                break;
+            case "gbfsshort":
+                ioTestGraph(input, GraphSearch::bfsShortestPath);
+                break;
+            case "gdfsshort":
+                ioTestGraph(input, GraphSearch::dfsShortestPath);
+                break;
+            case "gdfslong":
+                ioTestGraph(input, GraphSearch::dfsLongestPath);
+                break;
+            case "mbfsshort":
+                ioTestMaze(input, GraphSearch::bfsShortestPath);
+                break;
+            case "mdfsshort":
+                ioTestMaze(input, GraphSearch::dfsShortestPath);
+                break;
+            case "mdfslong":
+                ioTestMaze(input, GraphSearch::dfsLongestPath);
+                break;
+        }
+        input.close();
     }
 
-    static void ioTestArrayStack() {
+    static void ioTestArrayStack(Scanner input) {
+        int numOps = Integer.parseInt(input.nextLine());
+        var stack = new ArrayStack<String>();
+        for (int op = 0; op < numOps; ++op) {
+            String[] line = input.nextLine().split(" +");
+            switch (line[0]) {
+                case "a":
+                    stack.push(line[1]);
+                    break;
+                case "r":
+                    stack.pop();
+                    break;
+                case "p":
+                    System.out.println(stack.peek());
+                    break;
+                case "e":
+                    System.out.println(stack.isEmpty());
+                    break;
+            }
+        }
     }
 
-    static void ioTestArrayQueue() {
+    static void ioTestArrayQueue(Scanner input) {
+        int numOps = Integer.parseInt(input.nextLine());
+        var queue = new ArrayQueue<String>();
+        for (int op = 0; op < numOps; ++op) {
+            String[] line = input.nextLine().split(" +");
+            switch (line[0]) {
+                case "a":
+                    queue.enqueue(line[1]);
+                    break;
+                case "r":
+                    queue.dequeue();
+                    break;
+                case "p":
+                    System.out.println(queue.peek());
+                    break;
+                case "e":
+                    System.out.println(queue.isEmpty());
+                    break;
+            }
+        }
     }
 
-    static void ioTestGraphBFSShort() {
-
+    static List<List<Integer>> readGraph(Scanner input) {
+        int numVertices = Integer.parseInt(input.nextLine());
+        List<List<Integer>> graph = new ArrayList<List<Integer>>();
+        for (int i = 0; i < numVertices; ++i) {
+            String line = input.nextLine().trim();
+            if (line.isEmpty()) {
+                graph.add(new ArrayList<Integer>());
+            } else {
+                graph.add(Arrays.stream(line.split(" +")).map(s -> Integer.parseInt(s)).toList());
+            }
+        }
+        return graph;
     }
 
-    static void ioTestGraphDFSShort() {
-        
+    static GraphSearch.GraphAndLocMap readMaze(Scanner input) {
+        int rows = Integer.parseInt(input.nextLine());
+        int[][] maze = new int[rows][];
+        for (int i = 0; i < rows; ++i) {
+            maze[i] = input.nextLine().chars().map(c -> c - '0').toArray();
+        }
+        return GraphSearch.mazeToAdjacencyList(maze);
     }
 
-    static void ioTestGraphDFSLong() {
-        
+    static void runTest(List<List<Integer>> graph, Scanner input, DistFunction distFunc) {
+        int testCases = Integer.parseInt(input.nextLine());
+        for (int i = 0; i < testCases; ++i) {
+            int start = input.nextInt();
+            int end = input.nextInt();
+            System.out.println(distFunc.distance(graph, start, end));
+        }
+    }
+
+    static void runMazeTest(GraphSearch.GraphAndLocMap gl, Scanner input, DistFunction distFunc) {
+        int testCases = Integer.parseInt(input.nextLine());
+        var locMap = gl.locMap();
+        for (int i = 0; i < testCases; ++i) {
+            int startRow = input.nextInt();
+            int startCol = input.nextInt();
+            var start = locMap.get(new GraphSearch.MazeLocation(startRow, startCol));
+            int endRow = input.nextInt();
+            int endCol = input.nextInt();
+            var end = locMap.get(new GraphSearch.MazeLocation(endRow, endCol));
+            System.out.println(distFunc.distance(gl.graph(), start, end));
+        }
+    }
+
+    static void ioTestGraph(Scanner input, DistFunction distFunc) {
+        List<List<Integer>> graph = readGraph(input);
+        runTest(graph, input, distFunc);
+    }
+
+    static void ioTestMaze(Scanner input, DistFunction distFunc) {
+        var gl = readMaze(input);
+        runMazeTest(gl, input, distFunc);
     }
 }
