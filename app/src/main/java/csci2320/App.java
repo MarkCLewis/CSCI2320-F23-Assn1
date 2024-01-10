@@ -5,7 +5,9 @@ package csci2320;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -34,21 +36,13 @@ public class App {
             case "gbfsshort":
                 ioTestGraph(input, GraphSearch::bfsShortestPath);
                 break;
-            case "gdfsshort":
-                ioTestGraph(input, GraphSearch::dfsShortestPath);
-                break;
-            case "gdfslong":
-                ioTestGraph(input, GraphSearch::dfsLongestPath);
-                break;
             case "mbfsshort":
                 ioTestMaze(input, GraphSearch::bfsShortestPath);
                 break;
-            case "mdfsshort":
-                ioTestMaze(input, GraphSearch::dfsShortestPath);
-                break;
-            case "mdfslong":
-                ioTestMaze(input, GraphSearch::dfsLongestPath);
-                break;
+            case "iorpc":
+                ioTestRPC(input);
+            case "rpc":
+                randomTestRPC(input);
         }
         input.close();
     }
@@ -151,5 +145,48 @@ public class App {
     static void ioTestMaze(Scanner input, DistFunction distFunc) {
         var gl = readMaze(input);
         runMazeTest(gl, input, distFunc);
+    }
+
+    static void ioTestRPC(Scanner input) {
+        int numTests = input.nextInt();
+        for (int i = 0; i < numTests; ++i) {
+            String test = input.nextLine();
+            String vars = input.nextLine();
+            HashMap<String, Double> varMap = new HashMap<>();
+            for (String varPair: vars.split(" *; *")) {
+                String[] keyVal = varPair.split(" +");
+                varMap.put(keyVal[0], Double.parseDouble(keyVal[1]));
+            }
+            System.out.println(test);
+            System.out.println(RPCalc.eval(test, varMap));
+        }
+    }
+
+    static void randomTestRPC(Scanner input) {
+        Random rand = new Random(input.nextInt());
+        int size = input.nextInt();
+        HashMap<String, Double> varMap = new HashMap<>();
+        for (char c = 'a'; c <= 'z'; c++) {
+            varMap.put(Character.toString(c), rand.nextDouble());
+        }
+        int stack = 0;
+        StringBuilder sb = new StringBuilder();
+        String[] ops = {"+ ", "- ", "* ", "/ "};
+        for (int i = 0; i < size || stack > 1; ++i) {
+            if (i >= size || (stack >= 2 && rand.nextDouble() < 0.3)) {
+                sb.append(ops[rand.nextInt(ops.length)]);
+                stack -= 1;
+            } else {
+                stack += 1;
+                if (rand.nextDouble() < 0.5) {
+                    sb.append(String.format("%1.3f", rand.nextDouble()) + " ");
+                } else {
+                    sb.append((char)('a' + rand.nextInt(26)) + " ");
+                }
+            }
+        }
+        String test = sb.toString().trim();
+        System.out.println(test);
+        System.out.printf("%1.3f", RPCalc.eval(test, varMap));
     }
 }
