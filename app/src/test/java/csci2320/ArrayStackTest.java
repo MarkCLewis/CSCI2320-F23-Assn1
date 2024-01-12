@@ -8,4 +8,5 @@ public class ArrayStackTest {
     ArrayStack<Integer> stack = new ArrayStack<Integer>();
     assertTrue(stack.isEmpty(), "Stack should be empty on creation");
   }
+
 }

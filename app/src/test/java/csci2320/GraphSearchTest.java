@@ -24,15 +24,15 @@ public class GraphSearchTest {
       {0,0,0},
       {0,0,0}
     };
-    var gl = GraphSearch.mazeToAdjacencyList(maze);
+    var gl = MazeToGraph.mazeToAdjacencyList(maze);
     var graph = gl.graph();
     assertEquals(List.of(3,1), graph.get(0), "Wrong connections from 0.");
     assertEquals(List.of(1,7,3,5), graph.get(4), "Wrong connections from 4.");
     assertEquals(List.of(5,7), graph.get(8), "Wrong connections from 8.");
     var locs = gl.locMap();
-    assertEquals(0, locs.get(new GraphSearch.MazeLocation(0,0)), "Wrong index for 0,0");
-    assertEquals(4, locs.get(new GraphSearch.MazeLocation(1,1)), "Wrong index for 1,1");
-    assertEquals(8, locs.get(new GraphSearch.MazeLocation(2,2)), "Wrong index for 2,2");
+    assertEquals(0, locs.get(new MazeToGraph.MazeLocation(0,0)), "Wrong index for 0,0");
+    assertEquals(4, locs.get(new MazeToGraph.MazeLocation(1,1)), "Wrong index for 1,1");
+    assertEquals(8, locs.get(new MazeToGraph.MazeLocation(2,2)), "Wrong index for 2,2");
   }
 
   @Test void testMazeConvertLoop() {
@@ -41,7 +41,7 @@ public class GraphSearchTest {
       {0,1,0},
       {0,0,0}
     };
-    var gl = GraphSearch.mazeToAdjacencyList(maze);
+    var gl = MazeToGraph.mazeToAdjacencyList(maze);
     var graph = gl.graph();
     assertEquals(List.of(3,1), graph.get(0), "Wrong connections from 0.");
     assertEquals(List.of(0,5), graph.get(3), "Wrong connections from 3.");
@@ -54,7 +54,7 @@ public class GraphSearchTest {
       {0,1,0},
       {0,0,0}
     };
-    var gl = GraphSearch.mazeToAdjacencyList(maze);
+    var gl = MazeToGraph.mazeToAdjacencyList(maze);
     var graph = gl.graph();
     assertEquals(List.of(2), graph.get(0), "Wrong connections from 0.");
     assertEquals(List.of(0,4), graph.get(2), "Wrong connections from 2.");
