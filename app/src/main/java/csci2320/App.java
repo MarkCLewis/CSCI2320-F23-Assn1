@@ -151,14 +151,16 @@ public class App {
     }
 
     static void ioTestRPC(Scanner input) {
-        int numTests = input.nextInt();
+        int numTests = Integer.parseInt(input.nextLine());
         for (int i = 0; i < numTests; ++i) {
             String test = input.nextLine();
             String vars = input.nextLine();
             HashMap<String, Double> varMap = new HashMap<>();
-            for (String varPair: vars.split(" *; *")) {
-                String[] keyVal = varPair.split(" +");
-                varMap.put(keyVal[0], Double.parseDouble(keyVal[1]));
+            if (!vars.isEmpty()) {
+                for (String varPair: vars.split(" *; *")) {
+                    String[] keyVal = varPair.split(" +");
+                    varMap.put(keyVal[0], Double.parseDouble(keyVal[1]));
+                }
             }
             System.out.println(test);
             System.out.println(RPCalc.eval(test, varMap));
