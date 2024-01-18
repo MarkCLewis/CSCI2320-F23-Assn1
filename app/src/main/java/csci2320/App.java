@@ -42,8 +42,10 @@ public class App {
                 break;
             case "iorpc":
                 ioTestRPC(input);
+                break;
             case "rpc":
                 randomTestRPC(input);
+                break;
             case "speed":
                 SpeedTest.run();
         }
