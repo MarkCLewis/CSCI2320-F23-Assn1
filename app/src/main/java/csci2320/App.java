@@ -156,7 +156,9 @@ public class App {
         int numTests = Integer.parseInt(input.nextLine());
         for (int i = 0; i < numTests; ++i) {
             String test = input.nextLine();
+            System.out.println(test);
             String vars = input.nextLine();
+            System.out.println(vars);
             HashMap<String, Double> varMap = new HashMap<>();
             if (!vars.isEmpty()) {
                 for (String varPair: vars.split(" *; *")) {
@@ -164,7 +166,6 @@ public class App {
                     varMap.put(keyVal[0], Double.parseDouble(keyVal[1]));
                 }
             }
-            System.out.println(test);
             System.out.println(RPCalc.eval(test, varMap));
         }
     }
